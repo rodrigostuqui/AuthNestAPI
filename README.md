@@ -24,14 +24,31 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Nest](https://github.com/nestjs/nest) framework for create user accounts and authenticate users using JWT (JSON Web Tokens).
+
 
 ## Installation
-
+1. Clone this repository:
 ```bash
+$ git clone https://github.com/rodrigostuqui/AuthNestAPI.git
+```
+2. Install Dependencies
+```bash
+$ cd user-authentication-api
 $ npm install
 ```
+3. Setup Environment
 
+Create a `.env` file in the root directory of the project and add the following variables:
+```bash
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
+
+JWT_SECRET=your_jwt_secret_here
+```
+4. Migrate the prisma schema to the database
+```bash
+npx prisma migrate dev --name init
+```
 ## Running the app
 
 ```bash
@@ -57,16 +74,62 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+## Endpoints
+
+### 1. Create User
+- **URL:** `/users`
+- **Method:** `POST`
+- **Header**
+```bash
+Authorization: Bearer your_jwt_token_here
+```
+- **Request Body:**
+```json
+{
+  "email": "johndoe@gmail.com",
+  "name" : "John Doe",
+  "password": "abcd@1234"
+}
+```
+### 2. Login
+
+- **URL:** `/login`
+- **Method:** `POST`
+- **Request Body:**
+```json
+{
+  "email": "johndoe@gmail.com",
+  "password": "abcd@1234"
+}
+```
+- **Response**
+```json
+{
+  "access_token" : "your_access_token"
+}
+```
+### 3. Hello World
+- **URL:** `/users`
+- **Method:** `POST`
+- **Header**
+```bash
+Authorization: Bearer your_jwt_token_here
+```
+- **Response: 200 OK**
+```json
+Hello World!
+```
+
+## Note
+The /login endpoint demonstrates the usage of a decorator (@isPublic()) to control permissions, making the token nonessential.
+
+To create a user, make sure to free the endpoint first with the @IsPublic() decorator.
+
+If the creation of users in your application is restricted, remove the IsPublic() decorator, as future creations must be authenticated by an existing user.
 
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 

@@ -10,20 +10,22 @@ export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    // Method to create a new user
     const data: Prisma.UserCreateInput = {
       ...createUserDto,
-      password: await bcrypt.hash(createUserDto.password, 10),
+      password: await bcrypt.hash(createUserDto.password, 10), // Hashing the password before saving it
     };
 
-    const createdUser = await this.prismaService.user.create({ data });
+    const createdUser = await this.prismaService.user.create({ data }); // Creating the user using Prisma
 
     return {
       ...createdUser,
-      password: undefined,
+      password: undefined, // Omitting the password from the returned user object for security
     };
   }
 
   findByEmail(email: string) {
-    return this.prismaService.user.findFirst({ where: { email } });
+    // Method to find a user by email
+    return this.prismaService.user.findFirst({ where: { email } }); // Querying the database using Prisma
   }
 }
