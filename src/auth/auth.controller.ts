@@ -9,7 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthRequest } from './models/AuthRequest';
-import { IsPublic } from './middlewares/login-validation.middleware';
+import { IsPublic } from './middlewares/is-public.middleware';
 
 @Controller()
 export class AuthController {
